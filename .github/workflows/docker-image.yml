@@ -48,11 +48,11 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
+        context: ./app
+        file: ./app/Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USER }}/flask_hello_world:latest, ${{ secrets.DOCKERHUB_USER }}/flask_hello_world:${{ github.sha }}
-
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
