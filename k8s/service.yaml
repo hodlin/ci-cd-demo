@@ -2,11 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: flask_hello_world
-  name: flask_hello_world
+    app: flask-hello-world
+  name: flask-hello-world
 spec:
   ports:
     - port: 8080
       targetPort: 8080
   selector:
-    app: flask_hello_world
+    app: flask-hello-world
