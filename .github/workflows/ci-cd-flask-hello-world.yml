@@ -110,6 +110,7 @@ jobs:
 
     - name: Update Docker Image
       run: |-
+        cd k8s/
         ./kustomize edit set image flask_hello_world=${{ secrets.DOCKER_USERNAME }}/$IMAGE:$GITHUB_SHA
         cat kustomization.yaml
         ./kustomize build k8s/ | kubectl apply -f -
