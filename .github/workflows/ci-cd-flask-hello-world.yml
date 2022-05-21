@@ -10,7 +10,7 @@ env:
   GKE_ZONE: us-central1-c
   DEPLOYMENT_NAME: flask-hello-world
   IMAGE: flask_hello_world
-  DOCKEHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+  DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
   NAMESPACE: default
 
 jobs:
@@ -111,7 +111,7 @@ jobs:
     - name: Apply app to GKE
       run: |-
         cd k8s/
-        ./kustomize edit set image flask_hello_world=$DOCKEHUB_USER/$IMAGE:$GITHUB_SHA
+        ./kustomize edit set image flask_hello_world=hodlin/$IMAGE:$GITHUB_SHA
         cat kustomization.yaml
         ./kustomize build . | kubectl apply -f -
         # kubectl rollout status deployment/$DEPLOYMENT_NAME --namespace $NAMESPACE
