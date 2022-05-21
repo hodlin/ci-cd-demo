@@ -8,6 +8,7 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: demo-cluster-1
   GKE_ZONE: us-central1-c
+  DEPLOYMENT_NAME: flask_hello_world
   IMAGE: flask_hello_world
 
 jobs:
@@ -86,8 +87,8 @@ jobs:
 
     - name: Create namespace & set in Kustomize
       run: |
-         namespacePresentBlue=`kubectl get ns | grep flask_hello_world-blue | wc -l`
-         namespacePresentGreen=`kubectl get ns | grep flask_hello_world-green | wc -l`
+         namespacePresentBlue=`kubectl get ns | grep flask-hello-world-blue | wc -l`
+         namespacePresentGreen=`kubectl get ns | grep flask-hello-world-green | wc -l`
          if [ $namespacePresentBlue -eq 0 ]
          then
             kubectl create ns flask-hello-world-blue
@@ -109,11 +110,10 @@ jobs:
 
     - name: Update Docker Image
       run: |-
-        cd k8s/
         ./kustomize edit set image flask_hello_world=${{ secrets.DOCKER_USERNAME }}/$IMAGE:$GITHUB_SHA
         cat kustomization.yaml
-        # ./kustomize build . | kubectl apply -f -
-        # kubectl rollout status deployment/$DEPLOYMENT_NAME
-        # kubectl get services -o wide
+        ./kustomize build k8s/ | kubectl apply -f -
+        kubectl rollout status deployment/$DEPLOYMENT_NAME
+        kubectl get services -o wide
 
     
