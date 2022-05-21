@@ -4,8 +4,8 @@ resources:
 - deployment.yaml
 - service.yaml
 - ingress.yaml
-namespace: flask_hello_world
+namespace: flask-hello-world
 images:
-- name: flask_hello_world
+- name: flask-hello-world
   newName: hodlin/flask_hello_world
   newTag: latest
