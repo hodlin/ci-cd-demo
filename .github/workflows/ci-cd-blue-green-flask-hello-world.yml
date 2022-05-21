@@ -89,7 +89,7 @@ jobs:
 
     - name: Create namespace & set in Kustomize
       run: |
-        namespacesPresent=`kubectl get ns | grep flask-hello-world-* | wc -l`
+        namespacesPresent=`kubectl get ns | grep -E 'flask-hello-world-*' | wc -l`
         if [ $namespacesPresent -eq 0 ]
         then
           kubectl create ns flask-hello-world-1
