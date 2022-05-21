@@ -100,9 +100,9 @@ jobs:
         elif [ $namespacesPresent -eq 1 ]
         then
           echo "Updating app"
-          maxNameSpaceVersion=$(kubectl get ns | grep -Eo '[0-9]*+$')
+          maxNameSpaceVersion=$(kubectl get ns | grep -E flask-hello-world-* | grep -Eo '[0-9]*+$')
           echo "$maxNameSpaceVersion"
-          newNameSpaceVersion=$maxNameSpaceVersion + 1
+          newNameSpaceVersion=$(expr $maxNameSpaceVersion + 1)
           echo $newNameSpaceVersion
           kubectl create ns flask-hello-world-$newNameSpaceVersion
           cd k8s
