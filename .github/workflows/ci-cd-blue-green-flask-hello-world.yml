@@ -89,7 +89,7 @@ jobs:
 
     - name: Create namespace & set in Kustomize
       run: |-
-        namespacesPresent=`kubectl get ns | grep -E flask-hello-world-* | wc -l`
+        namespacesPresent=$(kubectl get ns | grep -E flask-hello-world-* | wc -l)
         echo $namespacesPresent
         if [ $namespacesPresent -eq 0 ]
         then
@@ -99,10 +99,10 @@ jobs:
           echo "NAMESPACE=flask-hello-world-1" >> $GITHUB_ENV
         elif [ $namespacesPresent -eq 1 ]
         then
-          echo "Apdating app"
-          maxNameSpaceVersion=`kubectl get ns | grep -Eo '[0-9]*+$'`
+          echo "Updating app"
+          maxNameSpaceVersion=$(kubectl get ns | grep -Eo '[0-9]*+$')
           echo $maxNameSpaceVersion
-          newNameSpaceVersion=`$maxNameSpaceVersion + 1`
+          newNameSpaceVersion=$($maxNameSpaceVersion + 1)
           echo $newNameSpaceVersion
           kubectl create ns flask-hello-world-$newNameSpaceVersion
           cd k8s
@@ -130,7 +130,7 @@ jobs:
 
     - name: Remove old namespace
       run: |
-        namespacePresentOld=`kubectl get ns | grep ${{ env.OLD_NAMESPACE }} | wc -l`
+        namespacePresentOld=$(kubectl get ns | grep ${{ env.OLD_NAMESPACE }} | wc -l)
         if [ $namespacePresentOld -eq 1 ]
         then
           kubectl delete ns ${{ env.OLD_NAMESPACE }} --wait=true
