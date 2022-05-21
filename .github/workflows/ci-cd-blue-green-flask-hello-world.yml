@@ -89,8 +89,8 @@ jobs:
 
     - name: Create namespace & set in Kustomize
       run: |-
-        kubectl get ns | grep -e 'flask-hello-world-*' | wc -l
         namespacesPresent=`kubectl get ns | grep -E flask-hello-world-* | wc -l`
+        echo $namespacesPresent
         if [ $namespacesPresent -eq 0 ]
         then
           kubectl create ns flask-hello-world-1
@@ -100,7 +100,7 @@ jobs:
         elif [ $namespacesPresent -eq 1 ]
         then
           maxNameSpaceVersion=`kubectl get ns | grep \d+$`
-          newNameSpaceVersion=`$maxNameSpaceVersion + 1``
+          newNameSpaceVersion=`$maxNameSpaceVersion + 1`
           kubectl create ns flask-hello-world-$newNameSpaceVersion
           cd k8s
           kustomize edit set namespace flask-hello-world-$newNameSpaceVersion
