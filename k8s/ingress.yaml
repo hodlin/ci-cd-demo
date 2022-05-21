@@ -9,7 +9,5 @@ spec:
           - path: /
             pathType: Prefix
             backend:
-              service:
-                name: flask-hello-world
-                port: 
-                  number: 80
+              serviceName: flask-hello-world
+              servicePort: 8080

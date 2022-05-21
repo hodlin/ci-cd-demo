@@ -116,7 +116,7 @@ jobs:
         ./kustomize edit set image flask_hello_world=${{ secrets.DOCKERHUB_USER }}/$IMAGE:$GITHUB_SHA
         cat kustomization.yaml
         ./kustomize build . | kubectl apply -f -
-        kubectl rollout status --namespace $NAMESPACE deployment/$DEPLOYMENT_NAME
+        # kubectl rollout status deployment/$DEPLOYMENT_NAME --namespace $NAMESPACE
         kubectl get services -o wide
 
 
