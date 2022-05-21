@@ -84,6 +84,29 @@ jobs:
         curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
         chmod u+x ./kustomize
 
+    - name: Create namespace & set in Kustomize
+      run: |
+         namespacePresentBlue=`kubectl get ns | grep flask_hello_world-blue | wc -l`
+         namespacePresentGreen=`kubectl get ns | grep flask_hello_world-green | wc -l`
+         if [ $namespacePresentBlue -eq 0 ]
+         then
+            kubectl create ns flask_hello_world-blue
+            cd k8s
+            kustomize edit set namespace flask_hello_world-blue
+            # echo "NEW_NAMESPACE=python-app-blue" >> $GITHUB_ENV
+            # echo "OLD_NAMESPACE=python-app-green" >> $GITHUB_ENV
+         elif [ $namespacePresentGreen -eq 0 ]
+         then
+            kubectl create ns flask_hello_world-green
+            cd k8s
+            kustomize edit set namespace flask_hello_world-green
+            # echo "NEW_NAMESPACE=python-app-green" >> $GITHUB_ENV
+            # echo "OLD_NAMESPACE=python-app-blue" >> $GITHUB_ENV
+         else
+            echo "Both Blue and Green namespaces are present! Exiting"
+            exit 1
+         fi
+
     - name: Update Docker Image
       run: |-
         cd k8s/
@@ -93,25 +116,4 @@ jobs:
         # kubectl rollout status deployment/$DEPLOYMENT_NAME
         # kubectl get services -o wide
 
-    # - name: Create namespace & set in Kustomize
-    #   run: |
-    #      namespacePresentBlue=`kubectl get ns | grep python-app-blue | wc -l`
-    #      namespacePresentGreen=`kubectl get ns | grep python-app-green | wc -l`
-    #      if [ $namespacePresentBlue -eq 0 ]
-    #      then
-    #         kubectl create ns python-app-blue
-    #         cd k8s
-    #         kustomize edit set namespace python-app-blue
-    #         echo "NEW_NAMESPACE=python-app-blue" >> $GITHUB_ENV
-    #         echo "OLD_NAMESPACE=python-app-green" >> $GITHUB_ENV
-    #      elif [ $namespacePresentGreen -eq 0 ]
-    #      then
-    #         kubectl create ns python-app-green
-    #         cd k8s
-    #         kustomize edit set namespace python-app-green
-    #         echo "NEW_NAMESPACE=python-app-green" >> $GITHUB_ENV
-    #         echo "OLD_NAMESPACE=python-app-blue" >> $GITHUB_ENV
-    #      else
-    #         echo "Both Blue and Green namespaces are present! Exiting"
-    #         exit 1
-    #      fi
+    
