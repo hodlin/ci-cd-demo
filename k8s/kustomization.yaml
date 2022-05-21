@@ -8,4 +8,4 @@ namespace: flask-hello-world-2
 images:
 - name: flask-hello-world
   newName: hodlin/flask_hello_world
-  newTag: 2bf1aef11e8916288d2e3644669c62f04a9b3c1e
+  newTag: 348578644bc94f3e8c87da6a23be8927e219c0b0
