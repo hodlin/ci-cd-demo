@@ -99,6 +99,7 @@ jobs:
           echo "NAMESPACE=flask-hello-world-1" >> $GITHUB_ENV
         elif [ $namespacesPresent -eq 1 ]
         then
+          echo "Apdating app"
           maxNameSpaceVersion=`kubectl get ns | grep -e \d+$`
           newNameSpaceVersion=`$maxNameSpaceVersion + 1`
           echo "$maxNameSpaceVersion | $newNameSpaceVersion"
