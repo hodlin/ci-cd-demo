@@ -62,7 +62,7 @@ jobs:
         tags: ${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE }}:latest, ${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE }}:${{ github.sha }}
 
   deploy:
-    name: Daploy image to GKE
+    name: Deploy image to GKE
     runs-on: ubuntu-latest
     needs: build
 
@@ -80,6 +80,7 @@ jobs:
 
     - name: Set up Kustomize
       run: |-
+        cd k8s/
         curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
         chmod u+x ./kustomize
 
