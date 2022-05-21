@@ -101,8 +101,8 @@ jobs:
         then
           echo "Updating app"
           maxNameSpaceVersion=$(kubectl get ns | grep -Eo '[0-9]*+$')
-          echo $maxNameSpaceVersion
-          newNameSpaceVersion=$($maxNameSpaceVersion + 1)
+          echo "$maxNameSpaceVersion"
+          newNameSpaceVersion=$maxNameSpaceVersion + 1
           echo $newNameSpaceVersion
           kubectl create ns flask-hello-world-$newNameSpaceVersion
           cd k8s
