@@ -10,6 +10,7 @@ env:
   GKE_ZONE: us-central1-c
   DEPLOYMENT_NAME: flask-hello-world
   IMAGE: flask_hello_world
+  DOCKEHUN_USER: ${{ secrets.DOCKERHUB_USER }}
 
 jobs:
 
@@ -113,11 +114,11 @@ jobs:
     - name: Update Docker Image
       run: |-
         cd k8s/
-        ./kustomize edit set image flask_hello_world=${{ secrets.DOCKERHUB_USER }}/$IMAGE:$GITHUB_SHA
+        ./kustomize edit set image flask_hello_world=$DOCKEHUN_USER/$IMAGE:$GITHUB_SHA
         cat kustomization.yaml
         ./kustomize build . | kubectl apply -f -
         # kubectl rollout status deployment/$DEPLOYMENT_NAME --namespace $NAMESPACE
-        kubectl get services -o wide
+        kubectl get services -o wide --namespace $NAMESPACE
 
 
     
