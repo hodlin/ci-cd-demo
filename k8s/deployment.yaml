@@ -5,7 +5,7 @@ metadata:
     app: flask-hello-world
   name: flask-hello-world
 spec:
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
       app: flask-hello-world
@@ -18,5 +18,4 @@ spec:
         - image: flask-hello-world
           name: flask-hello-world
           ports:
-            - name: http
-              containerPort: 8080
+            - containerPort: 8080

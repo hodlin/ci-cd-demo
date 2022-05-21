@@ -6,8 +6,8 @@ metadata:
   name: flask-hello-world
 spec:
   ports:
-    - name: http
+    - name: "8080"
       port: 8080
-      targetPort: http
+      targetPort: 8080
   selector:
     app: flask-hello-world
