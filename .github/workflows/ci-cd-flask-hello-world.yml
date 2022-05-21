@@ -8,7 +8,7 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: demo-cluster-1
   GKE_ZONE: us-central1-c
-  DEPLOYMENT_NAME: flask_hello_world
+  DEPLOYMENT_NAME: flask-hello-world
   IMAGE: flask_hello_world
 
 jobs:
