@@ -113,7 +113,7 @@ jobs:
         cd k8s/
         ./kustomize edit set image flask_hello_world=${{ secrets.DOCKER_USERNAME }}/$IMAGE:$GITHUB_SHA
         cat kustomization.yaml
-        ./kustomize build k8s/ | kubectl apply -f -
+        ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
 
