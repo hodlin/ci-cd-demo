@@ -90,6 +90,7 @@ jobs:
     - name: Deploy app to GKE
       run: |-
         cd k8s/
+        kustomize edit set namespace $NAMESPACE
         ./kustomize edit set image flask-hello-world=$DOCKERHUB_USER/$IMAGE:$GITHUB_SHA
         cat kustomization.yaml
         ./kustomize build . | kubectl apply -f -
