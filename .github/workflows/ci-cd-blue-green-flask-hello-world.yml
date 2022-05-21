@@ -96,16 +96,17 @@ jobs:
           kubectl create ns flask-hello-world-1
           cd k8s
           kustomize edit set namespace flask-hello-world-1
-          echo NAMESPACE=flask-hello-world-1 >> $GITHUB_ENV
+          echo "NAMESPACE=flask-hello-world-1" >> $GITHUB_ENV
         elif [ $namespacesPresent -eq 1 ]
         then
           maxNameSpaceVersion=`kubectl get ns | grep \d+$`
           newNameSpaceVersion=`$maxNameSpaceVersion + 1`
+          echo "$maxNameSpaceVersion | $newNameSpaceVersion"
           kubectl create ns flask-hello-world-$newNameSpaceVersion
           cd k8s
           kustomize edit set namespace flask-hello-world-$newNameSpaceVersion
-          echo NAMESPACE=flask-hello-world-$newNameSpaceVersion >> $GITHUB_ENV
-          echo OLD_NAMESPACE=flask-hello-world-$maxNameSpaceVersion >> $GITHUB_ENV
+          echo "NAMESPACE=flask-hello-world-$newNameSpaceVersion" >> $GITHUB_ENV
+          echo "OLD_NAMESPACE=flask-hello-world-$maxNameSpaceVersion" >> $GITHUB_ENV
         else
           echo "Two or more namespaces are present! Exiting"
           exit 1
@@ -121,7 +122,7 @@ jobs:
     - name: Deploy app to GKE
       run: |-
         cd k8s/
-        kubectl apply -f .
+        ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME --namespace $NAMESPACE
         kubectl get services -o wide --namespace $NAMESPACE
 
