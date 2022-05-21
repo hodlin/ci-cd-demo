@@ -128,8 +128,15 @@ jobs:
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME --namespace $NAMESPACE
         kubectl get services -o wide --namespace $NAMESPACE
-        kubectl get ingress $DEPLOYMENT_NAME --output yaml --namespace $NAMESPACE -o jsonpath="{.status.loadBalancer.ingress}"
-        echo "Finished"
+
+    - name: Wait ingress to be available
+      run: |-
+        while [[ -z $(kubectl get ingress $DEPLOYMENT_NAME --output yaml --namespace $NAMESPACE -o jsonpath="{.status.loadBalancer.ingress}" 2>/dev/null) ]]; do
+          echo "Waiting for ingress to be avalible"
+          sleep 1
+        done
+        echo "$DEPLOYMENT_NAME now has ingress"
+        echo "Update is now online!"
 
     - name: Remove old namespace
       run: |
