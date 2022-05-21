@@ -11,6 +11,7 @@ env:
   DEPLOYMENT_NAME: flask-hello-world
   IMAGE: flask_hello_world
   DOCKEHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+  NAMESPACE: default
 
 jobs:
 
@@ -96,16 +97,12 @@ jobs:
             cd k8s
             kustomize edit set namespace flask-hello-world-blue
             echo NAMESPACE=flask-hello-world-blue >> $GITHUB_ENV
-            # echo "NEW_NAMESPACE=python-app-blue" >> $GITHUB_ENV
-            # echo "OLD_NAMESPACE=python-app-green" >> $GITHUB_ENV
          elif [ $namespacePresentGreen -eq 0 ]
          then
             kubectl create ns flask-hello-world-green
             cd k8s
             kustomize edit set namespace flask-hello-world-green
             echo NAMESPACE=flask-hello-world-green >> $GITHUB_ENV
-            # echo "NEW_NAMESPACE=python-app-green" >> $GITHUB_ENV
-            # echo "OLD_NAMESPACE=python-app-blue" >> $GITHUB_ENV
          else
             echo "Both Blue and Green namespaces are present! Exiting"
             exit 1
