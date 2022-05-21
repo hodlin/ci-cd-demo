@@ -108,7 +108,7 @@ jobs:
             exit 1
          fi
 
-    - name: Update Docker Image
+    - name: Apply app to GKE
       run: |-
         cd k8s/
         ./kustomize edit set image flask_hello_world=$DOCKEHUB_USER/$IMAGE:$GITHUB_SHA

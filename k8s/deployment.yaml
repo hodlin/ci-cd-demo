@@ -18,4 +18,5 @@ spec:
         - image: flask-hello-world
           name: flask-hello-world
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 8080
