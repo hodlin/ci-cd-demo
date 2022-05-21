@@ -101,7 +101,7 @@ jobs:
         then
           echo "Updating app"
           echo $(kubectl get ns | grep -E flask-hello-world-*)
-          maxNameSpaceVersion=$(kubectl get ns | grep -E flask-hello-world-* | grep -Eo '[0-9]*+$')
+          maxNameSpaceVersion=$(kubectl get ns | grep -E flask-hello-world-* | grep -Eo '^[^ ]+' | grep -Eo '[0-9]*+$')
           echo "Old namespace version: $maxNameSpaceVersion"
           newNameSpaceVersion=$(expr $maxNameSpaceVersion + 1)
           echo "New namespace version: $newNameSpaceVersion"
