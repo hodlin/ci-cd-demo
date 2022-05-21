@@ -90,16 +90,16 @@ jobs:
          namespacePresentGreen=`kubectl get ns | grep flask_hello_world-green | wc -l`
          if [ $namespacePresentBlue -eq 0 ]
          then
-            kubectl create ns flask_hello_world-blue
+            kubectl create ns flask-hello-world-blue
             cd k8s
-            kustomize edit set namespace flask_hello_world-blue
+            kustomize edit set namespace flask-hello-world-blue
             # echo "NEW_NAMESPACE=python-app-blue" >> $GITHUB_ENV
             # echo "OLD_NAMESPACE=python-app-green" >> $GITHUB_ENV
          elif [ $namespacePresentGreen -eq 0 ]
          then
-            kubectl create ns flask_hello_world-green
+            kubectl create ns flask-hello-world-green
             cd k8s
-            kustomize edit set namespace flask_hello_world-green
+            kustomize edit set namespace flask-hello-world-green
             # echo "NEW_NAMESPACE=python-app-green" >> $GITHUB_ENV
             # echo "OLD_NAMESPACE=python-app-blue" >> $GITHUB_ENV
          else
