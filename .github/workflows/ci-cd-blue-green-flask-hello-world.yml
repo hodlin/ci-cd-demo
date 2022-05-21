@@ -136,7 +136,7 @@ jobs:
         namespacePresentOld=$(kubectl get ns | grep ${{ env.OLD_NAMESPACE }} | wc -l)
         if [ $namespacePresentOld -eq 1 ]
         then
-          kubectl delete ns ${{ env.OLD_NAMESPACE }} --wait=true
+          kubectl delete namespace ${{ env.OLD_NAMESPACE }} --wait=true
         fi
 
     - name: Commit files
